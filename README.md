@@ -24,7 +24,7 @@
 - Current gist includes:
   - `Dockerfile`
   - `tools` folder where we need to download latest `Android Studio` and `OWASP ZAP/Burp`. It already has [RASEv2](https://m2sup3rn0va.github.io/RASEv2/) pre-loaded
-  - `scripts` folder from where are the startup scripts get copied inside `Docker` image to ease functionality
+  - `scripts` folder from where all the startup scripts get copied inside `Docker` image to ease functionality
 
 ---
 
