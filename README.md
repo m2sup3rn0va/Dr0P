@@ -52,7 +52,7 @@
 
       ![2.png](attachments/2.png)
 
-- Now, run : `chmod +x deploy_docker.sh`
+- Now, run : `chmod +x deploy_docker.sh` and `./deploy_docker.sh`
 - This will install `docker` for you. Once, the script completes, please `logoff` and `login` back and re-run the script
 - The script works in two phases:
   - `Phase-1` : Install `docker` and set it for logged in `$USER`. It also creates `shareDrive` for `docker container`
