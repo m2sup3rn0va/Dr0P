@@ -1,0 +1,27 @@
+# =======================================================================================================================
+# Startup Commands
+# =======================================================================================================================
+
+neofetch
+export PATH=$PATH:/home/user/.local/bin:/home/user/Android/Sdk/platform-tools:/home/user/Android/Sdk/emulator
+export LC_ALL=C.UTF-8
+export LANGUAGE=C.UTF-8
+export LANG=C.UTF-8
+export TERM=xterm-256color
+export AVD_DIR="/home/user/.android/avd"
+export TZ="Asia/Kolkata"
+
+# =======================================================================================================================
+# Aliases
+# =======================================================================================================================
+
+alias tmux='tmux -f /home/user/.tmux/tmux.conf'
+alias tmux-kbs='cat /home/user/.tmux/tmux.conf | head -n 30 | lolcat'
+alias ls='exa -l --icons $@'
+alias ll='exa -al --icons $@'
+alias tree='exa -Tal --icons $@'
+alias cls='tput clear reset'
+alias cat='batcat $@'
+alias pslist='procs'
+
+# =======================================================================================================================

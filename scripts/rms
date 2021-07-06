@@ -1,0 +1,3 @@
+#! /bin/bash
+
+node /home/user/.local/tools/RMS/rms.js | lolcat

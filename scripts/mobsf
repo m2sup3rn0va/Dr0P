@@ -1,0 +1,6 @@
+#! /bin/bash
+
+cd /home/user/.local/tools/MobSF
+./run.sh 127.0.0.1:7000 > /dev/null 2>&1 &
+
+echo "[+] STARTED: MOBSF on 'http://127.0.0.1:7000'" | lolcat

@@ -1,0 +1,3 @@
+#! /bin/bash
+
+python2 /home/user/.local/tools/Drozer/drozer-2.4.4/bin/drozer $@

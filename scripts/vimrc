@@ -1,0 +1,275 @@
+" ============================================================================
+" VIMRC File
+" Created By: Mr. Sup3rN0va
+" Includes:
+"       - Python Syntax Highlighting and Identations
+"       - Python Autocompletion
+"       - Icons
+"       - NerdTree - File Browser
+"       - Nerd Commenter
+"       - Python Linters (flake8) and Fixers (black, isort)
+"
+" NOTE : MAKE SURE THAT '$HOME/.local/bin' is in $PATH
+" ============================================================================
+
+set encoding=utf-8
+
+" ============================================================================
+" Installing Dependencies
+" ============================================================================
+" Manual Installation after installing all the dependencies (If Needed):
+" mkdir $HOME/.vim
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+let vundle_path = expand('~/.vim/bundle/Vundle.vim')
+let plugin_install_status = 0
+
+if !isdirectory(vundle_path)
+        echo "Installing all the dependencies"
+        silent !sudo apt-get clean 2>&1 > /dev/null;
+        silent !sudo apt-get autoclean 2>&1 > /dev/null;
+        silent !sudo apt-get remove -y 2>&1 > /dev/null;
+        silent !sudo apt-get autoremove -y 2>&1 > /dev/null;
+        silent !sudo apt-get update --fix-missing;
+        echo ""
+        silent !sudo apt-get install -y exuberant-ctags ack-grep vim-gtk3 xdg-utils;
+        silent !python3 -m pip install --upgrade pip black pep8 flake8 pyflakes isort yapf --user --no-warn-script-location;
+        echo ""
+        silent !sudo apt-get clean 2>&1 > /dev/null;
+        silent !sudo apt-get autoclean 2>&1 > /dev/null;
+        silent !sudo apt-get remove -y 2>&1 > /dev/null;
+        silent !sudo apt-get autoremove -y 2>&1 > /dev/null;
+        silent !sudo apt-get update --fix-missing;
+        echo ""
+        echo "Installing VIM Plugin Manager"
+        echo ""
+        silent !git clone --progress https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+        let plugin_install_status = 1
+endif
+
+set rtp+=~/.vim/bundle/Vundle.vim
+
+" ============================================================================
+" Calling Vundle to install Plugins
+" ============================================================================
+
+call vundle#begin()
+
+" Let Vundle manage Vundle, required
+
+Plugin 'VundleVim/Vundle.vim'
+
+"--------------------------------------------------
+
+" VIM Airlines Theme
+" Just add these lines in vimrc and :PluginInstall
+
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+"-------------------------------------------------
+
+" Nerd Commenter
+Plugin 'preservim/nerdcommenter'
+
+"-------------------------------------------------
+
+" Nerd Tree - File Browser
+Plugin 'preservim/nerdtree'
+
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+"-------------------------------------------------
+
+" Tagbar - CTags window
+Plugin 'majutsushi/tagbar'
+
+"-------------------------------------------------
+
+" VIM Themes
+Plugin 'patstockwell/vim-monokai-tasty'
+Plugin 'dracula/vim', { 'name': 'dracula' }
+
+"-------------------------------------------------
+
+" AutoClose
+Plugin 'Townk/vim-autoclose'
+
+"-------------------------------------------------
+
+" Python Indentation
+Plugin 'vim-scripts/indentpython.vim'
+
+"-------------------------------------------------
+
+" Devicons
+Plugin 'ryanoasis/vim-devicons'
+
+"-------------------------------------------------
+
+" Better language packs
+Plugin 'sheerun/vim-polyglot'
+
+"-------------------------------------------------
+
+" Asynchronous Lint Engine for Python
+Plugin 'dense-analysis/ale'
+
+"-------------------------------------------------
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+
+" ============================================================================
+" Installing Plugin Dependencies
+" ============================================================================
+
+if plugin_install_status
+        :execute 'PluginInstall'
+        :execute 'BundleInstall'
+        :execute 'qa!'
+endif
+
+" ============================================================================
+" VIM General Settings
+" ============================================================================
+
+" ==== Color Scheme ==== 
+" Font can be set from Terminal Settings
+colorscheme vim-monokai-tasty
+
+" ==== Partial Autocompletion of File Names ====
+set path+=**
+syntax enable
+set wildmenu " Tab Completion on command mode
+
+" ==== Spell Checker ====
+set spelllang=en_us
+set spell
+
+" ==== Tab ====
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set expandtab
+set smartindent
+set backspace=indent,eol,start
+set scrolloff=10
+
+" ==== Search Highlighting ====
+set hls is
+
+" ==== No Error Bells ====
+set noerrorbells
+set noswapfile
+
+" ==== Lines ====
+set nu
+set wrap
+set relativenumber
+
+" ==== Auto-reload vimrc ====
+autocmd! bufwritepost .vimrc source %
+
+" Set SHELL
+" Sometimes ZSH has issues
+set shell=/bin/bash
+
+" ================================================
+" Remapping Keys"
+" ================================================
+let mapleader = ","
+inoremap jj <ESC>
+
+" ===== Better Indentation without loosing selection ====
+vnoremap > >gv
+vnoremap < <gv
+
+" ==== Disable Arrow Keys ====
+noremap <Up> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+noremap <Down> <Nop>
+
+" ==== Saving the files ====
+inoremap jjs <ESC>:w!<CR>a
+
+" ==== Get File Path ====
+imap <C-f> <C-x><C-f>
+
+" ==== Nerd Tree ====
+let NERDTreeQuitOnOpen=1
+let NERDTreeMinimalUI=1
+map <F3> :NERDTreeToggle<CR>
+
+" Enable folder icons
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+
+"---------------------------------
+
+" ==== Nerd Commenter ====
+filetype plugin on
+
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+
+" LeaderKey+c+space is to toggle comment
+" LineCount+LeaderKey+c+space is to comment multiple lines
+
+"---------------------------------
+
+" ==== Set PDB Breakpoints ====
+" Ability to add python breakpoints
+" (I use ipdb, but you can change it to whatever tool you use for debugging)
+au FileType python map <silent> <leader>b Oimport pdb; pdb.set_trace()<esc>
+
+"---------------------------------
+
+" ==== TagBar ====
+map <F4> :TagbarToggle<CR>
+
+" ==== Close All ====
+noremap jjwq :wqa!<CR>
+noremap jjq :qa!<CR>
+
+"---------------------------------
+
+let g:AutoClosePreserveDotReg = 0
+
+"---------------------------------
+
+" ==== Clipboard Management ====
+" vim --version | grep clip
+" You should see +clipboard and +xterm_clipboard
+" This means that VIM has access to clipboard
+
+nnoremap <C-y> "+y
+vnoremap <C-y> "+y
+nnoremap <C-p> "+gP
+vnoremap <C-p> "+gP
+
+"---------------------------------
+
+" ==== Python ALE ====
+let g:ale_linters = {'python': ['flake8']}
+let g:ale_fixers = {
+\        '*': ['remove_trailing_lines', 'trim_whitespace'],
+\        'python': ['black', 'isort'],
+\}
+let g:ale_fix_on_save=1
+
+"---------------------------------
+
+" ==== VIM Airline Theme ====
+" You can use multiple themes
+" Themes : luna, deus, wombat, bubblegum, distinguished, minimalist, violet
+let g:airline_theme='luna'
