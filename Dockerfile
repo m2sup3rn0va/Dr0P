@@ -15,19 +15,51 @@ apt-get autoclean -y && \
 apt-get remove -y && \
 apt-get autoremove -y && \
 apt-get update -y && \
-apt-get install --yes --no-install-recommends apt-utils && \
-apt-get install --yes --no-install-recommends apt-transport-https && \
-apt-get install --yes --no-install-recommends net-tools iputils-ping wget curl && \
-apt-get install --yes --no-install-recommends openjdk-14-jdk openjdk-14-jre libpulse0 libxcomposite1 && \
-apt-get install --yes --no-install-recommends git ruby aapt zipalign unzip bat tzdata && \
-apt-get install --yes --no-install-recommends libvirt-clients bridge-utils xz-utils libxcursor1 && \
-apt-get install --yes --no-install-recommends libvirt-daemon-system libqt5dbus5 libqt5widgets5 && \
-apt-get install --yes --no-install-recommends libqt5network5 libqt5gui5 libqt5core5a && \
-apt-get install --yes --no-install-recommends libdouble-conversion3 libxcb-xinerama0 && \
-apt-get install --yes --no-install-recommends usbutils libusbmuxd-tools libimobiledevice6 && \
-apt-get install --yes --no-install-recommends libimobiledevice-utils ideviceinstaller && \
-apt-get install --yes --no-install-recommends python2 python3-pip python3-venv vim && \
-apt-get install --yes --no-install-recommends qemu-kvm sudo xauth tmux neofetch bash-completion && \
+apt-get install --yes --no-install-recommends \
+apt-utils \
+apt-transport-https \
+net-tools \
+iputils-ping \
+wget \
+curl \
+openjdk-14-jdk \
+openjdk-14-jre \
+libpulse0 \
+libxcomposite1 \
+git \
+ruby \
+aapt \
+zipalign \
+unzip \
+bat \
+tzdata \
+libvirt-clients \
+bridge-utils \
+xz-utils \
+libxcursor1 \
+libvirt-daemon-system \
+libqt5dbus5 \
+libqt5widgets5 \
+libqt5network5 \
+libqt5gui5 \
+libqt5core5a \
+libdouble-conversion3 \
+libxcb-xinerama0 \
+usbutils \
+libusbmuxd-tools \
+libimobiledevice6 \
+libimobiledevice-utils \
+ideviceinstaller \
+python2 \
+python3-pip \
+python3-venv \
+vim \
+qemu-kvm \
+sudo \
+xauth \
+tmux \
+neofetch \
+bash-completion &&\
 rm -rf /var/lib/apt/lists/*
 
 RUN echo "user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
@@ -174,15 +206,22 @@ RUN sudo chown -R user:user /home/user && \
 chmod +x /home/user/.local/bin/drozer
 
 # Installing NodeJS and NPM
-RUN curl -fsSL https://deb.nodesource.com/setup_12.x | sudo -E bash - && \
-sudo apt-get install -y nodejs
+# RUN curl -fsSL https://deb.nodesource.com/setup_12.x | sudo -E bash - && \
+# sudo apt-get install -y nodejs
+COPY \
+    rms-configuration/node-installation-script.sh /temp/node-installation-script.sh
+RUN \
+    /temp/node-installation-script.sh
 
 # Installing RMS
 RUN git clone --progress https://github.com/m0bilesecurity/RMS-Runtime-Mobile-Security.git /home/user/.local/tools/RMS && \
-cd /home/user/.local/tools/RMS && npm install
-COPY scripts/rms /home/user/.local/bin/rms
-RUN sudo chown -R user:user /home/user && \
-chmod +x /home/user/.local/bin/rms
+    cd /home/user/.local/tools/RMS && npm install
+
+COPY \
+    rms-configuration/pm2-rms.json /home/user/.local/tools/RMS/pm2-rms.json
+# COPY scripts/rms /home/user/.local/bin/rms
+# RUN sudo chown -R user:user /home/user && \
+# chmod +x /home/user/.local/bin/rms
 
 # Installing MobSF
 RUN git clone --progress https://github.com/MobSF/Mobile-Security-Framework-MobSF.git /home/user/.local/tools/MobSF && \
